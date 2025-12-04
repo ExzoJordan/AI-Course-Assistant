@@ -1,5 +1,25 @@
 import React, { useState } from "react";
 
+function formatText(text) {
+  if (!text) return "";
+
+  // Split by newlines or dashes and convert to bullet points
+  const lines = text
+    .split(/\n|-/)
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
+
+  return (
+    <ul style={{ paddingLeft: "20px" }}>
+      {lines.map((line, i) => (
+        <li key={i} style={{ marginBottom: "6px" }}>
+          {line}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function App() {
   const [text, setText] = useState("");
   const [deadlines, setDeadlines] = useState("");
@@ -39,69 +59,105 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "30px", fontFamily: "Arial, sans-serif" }}>
-      <h1>AI Course Success Assistant</h1>
-      <p>Paste a syllabus below and click Analyze.</p>
-
-      <textarea
-        rows="10"
-        cols="80"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Paste syllabus text here..."
-        style={{ display: "block", width: "100%", maxWidth: "900px" }}
-      />
-
-      <button
-        onClick={analyze}
-        disabled={loading}
-        style={{
-          marginTop: "10px",
-          padding: "8px 16px",
-          cursor: loading ? "default" : "pointer",
-        }}
-      >
-        {loading ? "Analyzing..." : "Analyze"}
-      </button>
-
-      <h2>Deadlines</h2>
+    <div
+      style={{
+        padding: "40px",
+        fontFamily: "Arial, sans-serif",
+        background: "#f0f2f5",
+        minHeight: "100vh",
+      }}
+    >
       <div
         style={{
-          backgroundColor: "#f5f5f5",
-          padding: "10px",
           maxWidth: "900px",
-          minHeight: "40px",
+          margin: "0 auto",
+          background: "white",
+          padding: "30px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
         }}
       >
-        {deadlines}
-      </div>
+        <h1 style={{ textAlign: "center", marginBottom: "10px" }}>
+          🎓 AI Course Success Assistant
+        </h1>
+        <p style={{ textAlign: "center", marginBottom: "30px" }}>
+          Paste your syllabus text below. The AI will analyze deadlines, assignments, and learning strategies.
+        </p>
 
-      <h2>Assignment Summary</h2>
-      <div
-        style={{
-          backgroundColor: "#f5f5f5",
-          padding: "10px",
-          maxWidth: "900px",
-          minHeight: "40px",
-        }}
-      >
-        {summary}
-      </div>
+        <textarea
+          rows="10"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Paste syllabus text here..."
+          style={{
+            width: "100%",
+            padding: "12px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            marginBottom: "20px",
+            fontSize: "15px",
+          }}
+        />
 
-      <h2>Suggested Learning Strategies</h2>
-      <div
-        style={{
-          backgroundColor: "#f5f5f5",
-          padding: "10px",
-          maxWidth: "900px",
-          minHeight: "40px",
-        }}
-      >
-        {strategies}
+        <button
+          onClick={analyze}
+          disabled={loading}
+          style={{
+            width: "100%",
+            padding: "12px",
+            backgroundColor: loading ? "#888" : "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            fontSize: "16px",
+            cursor: loading ? "default" : "pointer",
+            marginBottom: "30px",
+          }}
+        >
+          {loading ? "Analyzing..." : "Analyze"}
+        </button>
+
+        {/* --- RESULTS CARDS --- */}
+        <div
+          style={{
+            background: "#fafafa",
+            padding: "20px",
+            borderRadius: "10px",
+            marginBottom: "20px",
+            border: "1px solid #e0e0e0",
+          }}
+        >
+          <h2>📅 Deadlines</h2>
+          {formatText(deadlines)}
+        </div>
+
+        <div
+          style={{
+            background: "#fafafa",
+            padding: "20px",
+            borderRadius: "10px",
+            marginBottom: "20px",
+            border: "1px solid #e0e0e0",
+          }}
+        >
+          <h2>📝 Assignment Summary</h2>
+          {formatText(summary)}
+        </div>
+
+        <div
+          style={{
+            background: "#fafafa",
+            padding: "20px",
+            borderRadius: "10px",
+            border: "1px solid #e0e0e0",
+          }}
+        >
+          <h2>🎯 Learning Strategies</h2>
+          {formatText(strategies)}
+        </div>
       </div>
     </div>
   );
 }
 
 export default App;
-
