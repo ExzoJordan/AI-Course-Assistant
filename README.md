@@ -32,6 +32,9 @@ HOW TO USE THE WEBSITE
 2.)Click the submission button
 3.) The AI will analyze and give deadlines,summaries, and class success tips in the output.
 
+FULL YOUTUBE TUTORIAL HERE
+https://www.youtube.com/watch?v=7dBFwVbGgbg
+
 
 
 
